@@ -1,8 +1,8 @@
 "use server";
 
-import { createAuthSession } from "@/lib/auth";
+import { createAuthSession, destroySession } from "@/lib/auth";
 import { hashUserPassword, verifyPassword } from "@/lib/hash";
-import { createUser } from "@/lib/user";
+import { createUser, getUserByEmail } from "@/lib/user";
 import { redirect } from "next/navigation";
 
 export default async function signup(prevState, formData) {
@@ -87,4 +87,9 @@ export async function authHelper(mode, prevState, formData) {
     return login(prevState, formData);
   }
   return signup(prevState, formData);
+}
+
+export async function logout() {
+  await destroySession();
+  redirect("/");
 }
